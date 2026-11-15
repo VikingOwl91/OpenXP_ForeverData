@@ -1,0 +1,89 @@
+name: Rebuild data from ForeverDB
+
+# Once a day: fetch ForeverDB's current quest data, rebuild Data.lua with
+# OpenXP's compiler and guides, and cut a release when the quest data changed.
+# Repository variables OPENXP_REPO and OPENXP_REF choose the OpenXP checkout
+# (default mjared123/OpenXP at main).
+
+on:
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-data
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: OpenXP_ForeverData
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.OPENXP_REPO || 'mjared123/OpenXP' }}
+          ref: ${{ vars.OPENXP_REF || 'main' }}
+          path: OpenXP
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Rebuild
+        id: rebuild
+        working-directory: OpenXP_ForeverData
+        run: |
+          set -euo pipefail
+          .github/scripts/rebuild.sh "$GITHUB_WORKSPACE/OpenXP" | tee "$RUNNER_TEMP/rebuild.log"
+          grep '^changed=' "$RUNNER_TEMP/rebuild.log" | tail -1 >> "$GITHUB_OUTPUT"
+
+      - name: Check the new Data.lua loads
+        if: steps.rebuild.outputs.changed == 'true'
+        working-directory: OpenXP_ForeverData
+        run: |
+          set -euo pipefail
+          pip install --quiet lupa
+          python3 - <<'PY'
+          import lupa
+          rt = lupa.LuaRuntime()
+          rt.execute(open("Data.lua", encoding="utf-8").read())
+          data = rt.globals().OpenXP_ForeverData
+          assert data.format == 1 and len(list(data.quests.keys())) > 1000
+          PY
+
+      - name: Commit, tag and release
+        if: steps.rebuild.outputs.changed == 'true'
+        working-directory: OpenXP_ForeverData
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          data_version=$(sed -n 's/^## Version: //p' OpenXP_ForeverData.toc)
+          tag="v$(date -u +%Y.%m.%d)"
+          n=1
+          while git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; do
+            n=$((n + 1))
+            tag="v$(date -u +%Y.%m.%d).$n"
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "data: rebuild from ForeverDB data $data_version"
+          git tag -a "$tag" -m "ForeverDB data $data_version"
+          git push origin HEAD:main "$tag"
+          git archive --format=zip --prefix=OpenXP_ForeverData/ -o "$RUNNER_TEMP/OpenXP_ForeverData.zip" "$tag"
+          {
+            echo "Rebuilt from ForeverDB data $data_version."
+            echo
+            echo "Data from ForeverDB.net (https://foreverdb.net)"
+            echo
+            echo "Needs an OpenXP version that reads quest data from other addons."
+            echo "Install: unpack \`OpenXP_ForeverData.zip\` into \`World of Warcraft/_forever_/Interface/AddOns/\`."
+          } > "$RUNNER_TEMP/notes.md"
+          gh release create "$tag" "$RUNNER_TEMP/OpenXP_ForeverData.zip" --title "OpenXP Forever Data ${tag#v}" --notes-file "$RUNNER_TEMP/notes.md"

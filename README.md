@@ -114,6 +114,18 @@ If you use this data in your own work, the licence below applies to it.
 The output is the same for the same inputs, so a diff of `Data.lua` shows exactly what changed in ForeverDB's data or
 in OpenXP's guides.
 
+### Automatic updates
+
+A GitHub Actions workflow (`.github/workflows/update-data.yml`) does this once a day. It reads ForeverDB's manifest,
+downloads the ForeverDB addon and its current quest data files, checks each download against the SHA-256 in the
+manifest, and rebuilds `Data.lua` with the compiler and guides from OpenXP. When the quest data changed it commits the
+result, tags it `vYYYY.MM.DD` and attaches the zip to a new release. A new data version with unchanged quest data
+does not make a release, and a rebuild that loses more than a tenth of the quests stops with an error.
+
+The repository variables `OPENXP_REPO` and `OPENXP_REF` choose which OpenXP checkout the compiler and guides come
+from. Without them it uses `mjared123/OpenXP` at `main`. `.github/scripts/rebuild.sh PATH/OpenXP` runs the same
+rebuild on your machine.
+
 ## Licence and credits
 
 GPL-3.0 with ForeverDB.net's attribution term (GPL-3.0 section 7(b)).
