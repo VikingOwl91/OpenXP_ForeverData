@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Rebuild Data.lua from ForeverDB's current data and OpenXP's guides.
 #   rebuild.sh OPENXP_CHECKOUT
-# Run from the root of this repository. Prints "changed=true" when the quest
-# data differs from what is committed, "changed=false" otherwise (the working
-# tree is put back then).
+# Run from the root of this repository. Prints "changed=true" when the result
+# is worth a release, "changed=false" otherwise (the working tree is put back
+# then).
 set -euo pipefail
 
 openxp=$1
@@ -30,10 +30,18 @@ if [ "$after" -lt $((before * 9 / 10)) ]; then
     exit 1
 fi
 
-# a new data version alone, with the same quest data, is no reason for a release
-if git diff --quiet -I'^version=' -I'^build=' -- Data.lua && git diff --quiet -- LICENSE.txt COPYING.txt; then
+# What makes a release: a rule, level, giver or licence change. Players keep
+# reporting the same spot a fraction of a percent apart, so positions alone
+# only make one when the last data commit is a week old.
+rules() { sed -E -e '/^(version|build)=/d' -e 's/,[0-9.]+,[0-9.]+\}/}/g' "$@"; }
+age=$(( ($(date +%s) - $(git log -1 --format=%ct -- Data.lua)) / 86400 ))
+if ! git diff --quiet -- LICENSE.txt COPYING.txt; then
+    echo "changed=true"
+elif ! cmp -s <(git show HEAD:Data.lua | rules) <(rules Data.lua); then
+    echo "changed=true"
+elif [ "$age" -ge 7 ] && ! git diff --quiet -I'^version=' -I'^build=' -- Data.lua; then
+    echo "changed=true"
+else
     git checkout -q -- .
     echo "changed=false"
-else
-    echo "changed=true"
 fi

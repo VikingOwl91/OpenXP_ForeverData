@@ -118,9 +118,10 @@ in OpenXP's guides.
 
 A GitHub Actions workflow (`.github/workflows/update-data.yml`) does this once a day. It reads ForeverDB's manifest,
 downloads the ForeverDB addon and its current quest data files, checks each download against the SHA-256 in the
-manifest, and rebuilds `Data.lua` with the compiler and guides from OpenXP. When the quest data changed it commits the
-result, tags it `vYYYY.MM.DD` and attaches the zip to a new release. A new data version with unchanged quest data
-does not make a release, and a rebuild that loses more than a tenth of the quests stops with an error.
+manifest, and rebuilds `Data.lua` with the compiler and guides from OpenXP. When a rule, level or quest giver changed it
+commits the result, tags it `vYYYY.MM.DD` and attaches the zip to a new release. Positions shift by a fraction of a
+percent all the time, so position changes alone are released at most once a week. A rebuild that loses more than a
+tenth of the quests stops with an error.
 
 The repository variables `OPENXP_REPO` and `OPENXP_REF` choose which OpenXP checkout the compiler and guides come
 from. Without them it uses `mjared123/OpenXP` at `main`. `.github/scripts/rebuild.sh PATH/OpenXP` runs the same
