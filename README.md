@@ -50,6 +50,12 @@ If Questie is installed, OpenXP asks Questie first and uses this addon for the q
    `AddOns/OpenXP_ForeverData/OpenXP_ForeverData.toc` exists.
 3. Start the game, or type `/reload`, and enable "OpenXP Forever Data" in the addon list.
 
+## CurseForge
+
+A CurseForge project for this addon exists, but no file is published there yet. The addon does nothing without the
+OpenXP change that reads quest data from other addons (https://github.com/mjared123/OpenXP/pull/39), so files will go
+up on CurseForge once an OpenXP release contains it. Until then the releases page here is the only download.
+
 ## What is in it
 
 This release holds 2,076 quests: every quest OpenXP's guides use, plus the quests those need first. 995 of them have a
