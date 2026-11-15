@@ -147,5 +147,8 @@ If you pass this data on, keep the line that starts `-- Data: ForeverDB.net (htt
 
 OpenXP itself is a separate addon under CC BY-NC-SA 4.0 and contains none of this data.
 
+The icon (`icon.tga`) is not part of the data and not under the GPL. It is based on OpenXP's logo and is licensed, like
+OpenXP, under CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
 World of Warcraft and WoW Forever are trademarks or property of Blizzard Entertainment, Inc. This addon is not
 affiliated with or endorsed by Blizzard Entertainment, ForeverDB.net or the CMaNGOS project.
