@@ -1,0 +1,4 @@
+package-as: OpenXP_ForeverData
+
+ignore:
+  - README.md
