@@ -2,7 +2,7 @@
 ## Title: OpenXP Forever Data
 ## Notes: Quest chains and quest levels for OpenXP in WoW Forever. Data from ForeverDB.net (https://foreverdb.net).
 ## Author: OpenXP contributors, data by ForeverDB.net
-## Version: 2026-11-15.d2e4316c
+## Version: 2026-11-15.a8973e3f
 ## X-License: GPL-3.0 with an attribution term, see LICENSE.txt and NOTICE.txt
 ## X-Website: https://foreverdb.net
 
