@@ -30,12 +30,14 @@ if [ "$after" -lt $((before * 9 / 10)) ]; then
     exit 1
 fi
 
-# What makes a release: a rule, level, giver or licence change. Players keep
+# What makes a release: a rule, level, giver, licence or toc change. Players keep
 # reporting the same spot a fraction of a percent apart, so positions alone
 # only make one when the last data commit is a week old.
 rules() { sed -E -e '/^(version|build)=/d' -e 's/,[0-9.]+,[0-9.]+\}/}/g' "$@"; }
 age=$(( ($(date +%s) - $(git log -1 --format=%ct -- Data.lua)) / 86400 ))
 if ! git diff --quiet -- LICENSE.txt COPYING.txt; then
+    echo "changed=true"
+elif ! git diff --quiet -I'^## Version:' -- OpenXP_ForeverData.toc; then
     echo "changed=true"
 elif ! cmp -s <(git show HEAD:Data.lua | rules) <(rules Data.lua); then
     echo "changed=true"
