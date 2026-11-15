@@ -133,6 +133,13 @@ The repository variables `OPENXP_REPO` and `OPENXP_REF` choose which OpenXP chec
 from. Without them it uses `mjared123/OpenXP` at `main`. `.github/scripts/rebuild.sh PATH/OpenXP` runs the same
 rebuild on your machine.
 
+## Support
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y4N626HMX7)
+
+A tip supports the work on this addon and its daily rebuild. The data itself is ForeverDB.net's and stays free under
+the licence below.
+
 ## Licence and credits
 
 GPL-3.0 with ForeverDB.net's attribution term (GPL-3.0 section 7(b)).
