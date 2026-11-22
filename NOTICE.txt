@@ -4,14 +4,14 @@ OpenXP Forever Data - where this addon's data comes from, and under which terms
 Data from ForeverDB.net (https://foreverdb.net)
 
 This addon is one data file, Data.lua, for the OpenXP leveling guide addon. It
-holds, for 2088 quests, which quests have to be done first, the level a
+holds, for 2089 quests, which quests have to be done first, the level a
 quest is offered from, who gives and takes it and where they are. It is not part of OpenXP and OpenXP
 works without it.
 
 1. Source
    Data.lua is derived from Data/QuestForever.lua and Data/QuestClassic.lua of
-   the ForeverDB addon by ForeverDB.net, data version 2026-11-21.a7dd88fb, WoW Forever
-   client build 1.60.1.70959. Copyright (C) 2026 ForeverDB.net. Licensed under the
+   the ForeverDB addon by ForeverDB.net, data version 2026-11-22.c2b41749, WoW Forever
+   client build 1.60.1.71037. Copyright (C) 2026 ForeverDB.net. Licensed under the
    GNU General Public License version 3 with ForeverDB's attribution term
    (GPL-3.0 section 7(b)): see LICENSE.txt, which is ForeverDB's licence file
    unchanged, and COPYING.txt for the GPL's full text. This addon is under the
