@@ -3,7 +3,7 @@
 ## IconTexture: Interface\AddOns\OpenXP_ForeverData\icon
 ## Notes: Quest chains and quest levels for OpenXP in WoW Forever. Data from ForeverDB.net (https://foreverdb.net).
 ## Author: OpenXP contributors, data by ForeverDB.net
-## Version: 2026-11-22.c2b41749
+## Version: 2026-11-23.5d3b988a
 ## X-License: GPL-3.0 with an attribution term, see LICENSE.txt and NOTICE.txt
 ## X-Website: https://foreverdb.net
 
