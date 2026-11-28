@@ -10,7 +10,7 @@ works without it.
 
 1. Source
    Data.lua is derived from Data/QuestForever.lua and Data/QuestClassic.lua of
-   the ForeverDB addon by ForeverDB.net, data version 2026-11-27.93ffb205, WoW Forever
+   the ForeverDB addon by ForeverDB.net, data version 2026-11-28.27b8886b, WoW Forever
    client build 1.60.1.71139. Copyright (C) 2026 ForeverDB.net. Licensed under the
    GNU General Public License version 3 with ForeverDB's attribution term
    (GPL-3.0 section 7(b)): see LICENSE.txt, which is ForeverDB's licence file
